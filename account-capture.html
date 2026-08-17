@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#123c35">
+  <title>Account Opening Form — Loki Ventures</title>
+  <style>
+    :root{
+      --bg:#f3f1e9;--paper:#fffefa;--ink:#17332f;--muted:#63706d;--line:#d9ddd7;
+      --brand:#123c35;--brand2:#1f675a;--accent:#e4a33a;--soft:#e6f0ec;--warn:#fff1d6;
+      --bad:#9f3d31;--good:#247052;--shadow:0 18px 50px rgba(24,48,42,.12);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:linear-gradient(135deg,#eff0e8,#f8f4ea 48%,#e9f0ec);
+      color:var(--ink);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    .app{min-height:100vh}
+    .top{position:sticky;top:0;z-index:20;background:rgba(18,60,53,.97);color:white;
+      box-shadow:0 4px 20px rgba(0,0,0,.12)}
+    .topin{max-width:1000px;margin:auto;padding:14px 22px;display:flex;align-items:center;gap:16px}
+    .brand{min-width:200px}
+    .eyebrow{text-transform:uppercase;letter-spacing:.13em;font-size:11px;color:#bad5ce;font-weight:800}
+    .brand h1{font-size:18px;line-height:1.15;margin:3px 0 0}
+    .track{flex:1;display:flex;align-items:center;gap:4px}
+    .track span{height:5px;flex:1;border-radius:99px;background:rgba(255,255,255,.18)}
+    .track span.on{background:var(--accent)}
+    .save{font-size:12px;color:#c8dcd7;white-space:nowrap}
+    .ghost{border:1px solid rgba(255,255,255,.35);background:transparent;color:white;
+      border-radius:9px;padding:8px 10px}
+    main{max-width:1000px;margin:0 auto;padding:30px 22px 70px}
+    .hero h2{font:700 clamp(26px,4vw,40px)/1.08 Georgia,serif;margin:0 0 10px;letter-spacing:-.02em}
+    .hero p{font-size:16px;color:#52615e;max-width:760px;margin:0 0 22px}
+    .card{background:var(--paper);border:1px solid rgba(23,51,47,.09);border-radius:18px;
+      box-shadow:var(--shadow);overflow:hidden}
+    .cardhead{padding:20px 24px;border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:start}
+    .stepno{width:36px;height:36px;display:grid;place-items:center;border-radius:10px;background:var(--soft);
+      color:var(--brand);font-weight:900;flex:0 0 auto}
+    .cardhead h3{margin:0;font-size:19px}
+    .cardhead p{margin:3px 0 0;color:var(--muted)}
+    .body{padding:24px}
+    .section{margin:0 0 26px}
+    .section:last-child{margin-bottom:0}
+    .section h4{margin:0 0 4px;font-size:16px}
+    .section>p{margin:0 0 14px;color:var(--muted);font-size:13px}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+    .grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .full{grid-column:1/-1}
+    label.field{display:block}
+    .label{display:flex;justify-content:space-between;gap:8px;font-weight:750;margin:0 0 6px;font-size:14px}
+    .req{color:var(--bad);font-size:12px}
+    .opt{color:var(--muted);font-size:12px;font-weight:600}
+    .hint{color:var(--muted);font-size:12px;margin:5px 0 0}
+    input,select,textarea{width:100%;border:1px solid #cbd2ce;border-radius:10px;background:#fff;
+      color:var(--ink);padding:11px 12px;transition:.15s border,.15s box-shadow}
+    textarea{min-height:80px;resize:vertical;line-height:1.45}
+    input:focus,select:focus,textarea:focus{outline:0;border-color:var(--brand2);
+      box-shadow:0 0 0 3px rgba(31,103,90,.12)}
+    input.bad,select.bad,textarea.bad{border-color:var(--bad);box-shadow:0 0 0 3px rgba(159,61,49,.1)}
+    .choices{display:flex;flex-wrap:wrap;gap:9px}
+    .choice{border:1px solid #c7d0cc;background:white;border-radius:999px;padding:9px 14px;color:var(--ink);font-weight:600}
+    .choice.on{background:var(--brand);border-color:var(--brand);color:white}
+    .modegrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .modepick{text-align:left;border:1px solid var(--line);background:white;border-radius:13px;padding:16px;color:var(--ink)}
+    .modepick b{display:block;margin-bottom:4px;font-size:15px}
+    .modepick span{font-size:13px;color:var(--muted)}
+    .modepick.on{border-color:var(--brand2);background:var(--soft);box-shadow:inset 0 0 0 1px var(--brand2)}
+    .nav{display:flex;gap:10px;justify-content:space-between;align-items:center;padding:18px 24px;
+      border-top:1px solid var(--line);background:#fbfaf5}
+    .navright{display:flex;gap:10px;margin-left:auto}
+    .btn{border:1px solid #bac6c1;background:white;color:var(--ink);border-radius:10px;padding:11px 18px;font-weight:800}
+    .btn.primary{background:var(--brand);border-color:var(--brand);color:white}
+    .btn.accent{background:var(--accent);border-color:var(--accent);color:#2d271e}
+    .btn:disabled{opacity:.45;cursor:not-allowed}
+    .callout{border-left:4px solid var(--accent);background:var(--warn);padding:13px 15px;border-radius:0 10px 10px 0;margin:0 0 20px;font-size:13px}
+    .callout b{display:block}
+    .info{border:1px solid var(--line);background:#f7faf8;border-radius:12px;padding:16px 18px}
+    .info h5{margin:0 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--brand)}
+    .info dl{margin:0;display:grid;grid-template-columns:150px 1fr;gap:4px 12px;font-size:14px}
+    .info dt{color:var(--muted)}
+    .info dd{margin:0;font-weight:650}
+    .policy{border:1px solid var(--line);border-radius:12px;background:#fff;padding:4px 18px}
+    .policy li{margin:12px 0;font-size:14px}
+    .filebox{border:1px dashed #bcc7c2;border-radius:12px;padding:14px;background:#fff}
+    .filebox .name{font-size:13px;color:var(--muted);margin-top:6px}
+    .filebox .thumb{margin-top:8px;max-height:120px;border-radius:8px;border:1px solid var(--line)}
+    .sigwrap{border:1px solid #cbd2ce;border-radius:12px;background:#fff;overflow:hidden}
+    .sigcanvas{display:block;width:100%;height:180px;touch-action:none;background:
+      repeating-linear-gradient(#fff,#fff 34px,#eef2ef 35px)}
+    .sigcanvas.short{height:130px}
+    .sigbar{display:flex;gap:10px;align-items:center;padding:9px 12px;border-top:1px solid var(--line);background:#fbfaf5}
+    .sigbar small{color:var(--muted);margin-left:auto}
+    .consent{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:14px;background:#fff}
+    .consent input{width:20px;height:20px;margin-top:2px;flex:0 0 auto}
+    .consent label{font-size:13px;color:var(--ink)}
+    .cardrow{border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;background:#fff}
+    .cardrow .rowhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .cardrow .rowhead b{font-size:14px}
+    .cardrow .rm{border:1px solid #cbd2ce;background:#fff;border-radius:9px;padding:6px 12px;font-size:13px;color:var(--bad)}
+    .review{display:grid;gap:14px}
+    .rgroup{border:1px solid var(--line);border-radius:12px;overflow:hidden}
+    .rgroup h5{margin:0;padding:11px 14px;background:var(--soft);font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--brand)}
+    .rgroup dl{margin:0;padding:6px 14px 12px;display:grid;grid-template-columns:210px 1fr;gap:2px 14px}
+    .rgroup dt{color:var(--muted);font-size:13px;padding:6px 0}
+    .rgroup dd{margin:0;font-size:14px;padding:6px 0;border-bottom:1px dashed #eceee9}
+    .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--brand);color:white;
+      padding:13px 18px;border-radius:12px;box-shadow:var(--shadow);z-index:50;max-width:90vw;display:none}
+    .toast.show{display:block}
+    .toast.bad{background:var(--bad)}
+    .done{text-align:center;padding:44px 24px}
+    .done .tick{width:64px;height:64px;border-radius:50%;background:var(--soft);color:var(--good);
+      display:grid;place-items:center;margin:0 auto 16px;font-size:34px}
+    .footer-note{text-align:center;color:var(--muted);font-size:12px;margin-top:18px}
+    @media(max-width:760px){
+      .grid,.grid.three,.modegrid{grid-template-columns:1fr}
+      .info dl,.rgroup dl{grid-template-columns:1fr}
+      .info dt,.rgroup dt{padding-bottom:0}
+      .topin{flex-wrap:wrap}.track{order:3;width:100%;flex-basis:100%}.save{margin-left:auto}
+      main{padding:22px 13px 55px}.body,.cardhead{padding:18px}.nav{padding:15px}
+    }
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="topin">
+      <div class="brand"><div class="eyebrow">Loki Ventures Limited</div><h1>Account Opening Form</h1></div>
+      <div class="track" id="track" aria-label="Progress"></div>
+      <div class="save" id="saveState">Saved on this device</div>
+      <button class="ghost" id="resetBtn" type="button">Start over</button>
+    </div>
+  </header>
+  <main>
+    <section class="hero" id="hero">
+      <h2>Open a trading account</h2>
+      <p>Complete this application to open a trading account with Loki Ventures Limited. It is the
+        digital version of our Account Opening Form — please complete all relevant sections. Any
+        section that does not apply may be marked <b>N/A</b>. Your progress is saved on this device
+        automatically, and you sign on-screen at the end.</p>
+    </section>
+
+    <div class="card">
+      <div class="cardhead">
+        <div class="stepno" id="stepNo">1</div>
+        <div><h3 id="stepTitle"></h3><p id="stepSub"></p></div>
+      </div>
+      <div class="body" id="stepBody"></div>
+      <div class="nav">
+        <button class="btn" id="backBtn" type="button">Back</button>
+        <div class="navright">
+          <button class="btn primary" id="nextBtn" type="button">Continue</button>
+          <button class="btn accent" id="submitBtn" type="button" style="display:none">Sign &amp; submit</button>
+        </div>
+      </div>
+    </div>
+    <p class="footer-note">Loki Ventures Limited · P.O. Box 48960-00100, Nairobi · accounts@loki-ventures.com</p>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+const SUBMIT_ENDPOINT = "/api/submit";
+const STORAGE_KEY = "loki.account.application.v2";
+
+// ---- pick-lists (mirror reference_data.py) --------------------------------
+const BUSINESS_CATEGORY = [["supermarket","Supermarket"],["hypermarket","Hypermarkets"],["pet_boarding","Pet boarding"],["breeder","Breeder"],["online_platform","Online Platform"],["agrovet","Agrovet"],["pet_shop","Pet Shop"],["vet","Vet"],["security_firm","Security firm"],["b2b","B2B"],["shelter","Shelter"],["other","Other"]];
+const PRODUCT_LINES = [["dog_food","Dog Food"],["cat_food","Cat Food"],["pet_grooming","Pet Grooming Products"],["pet_accessories","Pet Accessories"],["other","Other"]];
+const PAYMENT_METHODS = [["bank_transfer","Bank Transfer"],["cheque","Cheque"],["mobile_money","Mobile Money"]];
+const PAYMENT_TERMS = [["net_30","30 Days"],["net_45","45 Days"],["net_60","60 Days"]];
+const ORDER_BY = [["lpo","LPO"],["email","Email"],["whatsapp","WhatsApp / Message"]];
+const LOKI_BANKING = {bank_name:"I&M Bank Ltd",branch:"Lavington Mall",account_name:"Loki Ventures Ltd",account_number:"2701566371210",mpesa_till:"940233"};
+const RETURN_POLICY = [
+  "Short Expiry Goods: Goods with less than 3 months remaining until expiry are non-returnable. We will not be liable for goods returned with less than 3 months to their expiration date.",
+  "Damaged or Expired Goods: We are not liable for damaged or expired goods once delivered, unless noted and reported at the time of delivery."
+];
+
+// ---- canonical state ------------------------------------------------------
+const director = () => ({name:"",address:"",mobile:"",id_no:"",signature_base64:"",signed_at:""});
+const tradeRef = () => ({supplier_name:"",contact_person:"",email:"",phone:""});
+const blank = () => ({
+  version: "2",
+  meta: { capture_mode:"", salesperson_name:"", salesperson_id:"" },
+  company: { company_name:"", trading_name:"", registration_no:"", type_of_business:"",
+    business_category:[], business_category_other:"", pin_number:"", vat_number:"", year_established:"" },
+  directors: [ director() ],
+  delivery: { different:false, name:"", address:"", mobile:"", id_no:"", signature_base64:"", signed_at:"" },
+  purchasing_contact: { name:"", position:"", email:"", phone:"" },
+  accounts_contact: { name:"", position:"", email:"", phone:"" },
+  operations: { nature_of_business:"", number_of_branches:"", avg_monthly_orders:"", product_lines:[], product_lines_other:"" },
+  trade_references: [ tradeRef(), tradeRef() ],
+  payment: { preferred_methods:[], payment_terms:"", order_by:[] },
+  policy_ack: false,
+  attachments: [],   // {kind, filename, mime, data(base64)}
+  authorization: { name:"", position:"", date:"", signature_base64:"", signed_at:"", consent_data_processing:false }
+});
+let S = load() || blank();
+let step = 0;
+
+function load(){ try{ const r=localStorage.getItem(STORAGE_KEY); return r?JSON.parse(r):null; }catch(e){ return null; } }
+function persist(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(strip(S))); }catch(e){} flashSaved(); }
+// Keep heavy base64 blobs (signatures + attachments) out of localStorage; they live in memory this session.
+function strip(s){
+  const c=JSON.parse(JSON.stringify(s));
+  c.attachments=(c.attachments||[]).map(a=>({kind:a.kind,filename:a.filename,mime:a.mime,data:""}));
+  (c.directors||[]).forEach(d=>d.signature_base64="");
+  if(c.delivery) c.delivery.signature_base64="";
+  if(c.authorization) c.authorization.signature_base64="";
+  return c;
+}
+let savedTimer;
+function flashSaved(){ const el=document.getElementById("saveState"); el.textContent="Saving…"; clearTimeout(savedTimer); savedTimer=setTimeout(()=>el.textContent="Saved on this device",400); }
+
+// ---- steps ----------------------------------------------------------------
+const steps = [
+  { title:"How is this being filled?", sub:"Choose who is completing the form.", render:stepMode, validate:vMode },
+  { title:"Company information", sub:"Section 1 — about the business.", render:stepCompany, validate:vCompany },
+  { title:"Directors / Partners / Proprietor", sub:"Section 2A — each signs below.", render:stepDirectors, validate:vDirectors },
+  { title:"Delivery address", sub:"Section 2B — only if different from above.", render:stepDelivery, validate:vDelivery },
+  { title:"Department contacts", sub:"Section 3 — purchasing and accounts contacts.", render:stepContacts, validate:vContacts },
+  { title:"Business operations", sub:"Section 4 — how the business trades.", render:stepOperations, validate:vOperations },
+  { title:"Trade references", sub:"Section 5 — details of two suppliers.", render:stepReferences, validate:vReferences },
+  { title:"Payment terms & conditions", sub:"Section 7 — method, terms and ordering.", render:stepPayment, validate:vPayment },
+  { title:"Return & expiry goods policy", sub:"Section 8 — please read and acknowledge.", render:stepPolicy, validate:vPolicy },
+  { title:"Supporting documents", sub:"Attach KRA PIN, registration and ID.", render:stepDocs, validate:vDocs },
+  { title:"Review & authorise", sub:"Check everything, then sign to submit.", render:stepReview, validate:vReview },
+];
+
+const el = (h)=>{ const t=document.createElement("template"); t.innerHTML=h.trim(); return t.content.firstElementChild; };
+const esc = (v)=> (v==null?"":String(v)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function field(labelText, req, inner, hint){
+  return `<label class="field"><span class="label">${esc(labelText)} ${req?'<span class="req">Required</span>':'<span class="opt">Optional</span>'}</span>${inner}${hint?`<span class="hint">${esc(hint)}</span>`:""}</label>`;
+}
+function input(path, attrs=""){ return `<input data-path="${path}" value="${esc(get(path))}" ${attrs}>`; }
+function get(path){ return path.split(".").reduce((o,k)=>o&&o[k]!==undefined?o[k]:"", S); }
+function set(path,val){ const ks=path.split("."); let o=S; for(let i=0;i<ks.length-1;i++) o=o[ks[i]]; o[ks[ks.length-1]]=val; }
+
+// multi-select chips backed by an array on the state
+function chipRow(codes, arr){ return `<div class="choices">${codes.map(([v,l])=>`<button type="button" class="choice ${arr.includes(v)?'on':''}" data-code="${v}">${esc(l)}</button>`).join("")}</div>`; }
+function wireChips(wrap, arr){
+  wrap.querySelectorAll(".choice[data-code]").forEach(b=>b.addEventListener("click",()=>{
+    const code=b.dataset.code, i=arr.indexOf(code);
+    if(i>=0) arr.splice(i,1); else arr.push(code);
+    persist(); render();
+  }));
+}
+
+// STEP 1 — mode
+function stepMode(){
+  const m=S.meta.capture_mode;
+  const wrap=el(`<div class="section">
+    <div class="modegrid">
+      <button type="button" class="modepick ${m==='self_serve'?'on':''}" data-mode="self_serve"><b>Customer is filling it</b><span>Self-serve — the customer completes and signs on their own device.</span></button>
+      <button type="button" class="modepick ${m==='assisted'?'on':''}" data-mode="assisted"><b>Salesperson is filling it</b><span>Assisted — a Loki salesperson captures details, the customer still signs.</span></button>
+    </div>
+    <div id="spBox" style="margin-top:18px;${m==='assisted'?'':'display:none'}">
+      <div class="grid">
+        ${field("Salesperson Name", true, input("meta.salesperson_name"))}
+        ${field("Salesperson ID / Code", false, input("meta.salesperson_id"))}
+      </div>
+    </div>
+  </div>`);
+  wrap.querySelectorAll(".modepick").forEach(b=>b.addEventListener("click",()=>{ S.meta.capture_mode=b.dataset.mode; persist(); render(); }));
+  return wrap;
+}
+function vMode(){ if(!S.meta.capture_mode) return "Please choose who is filling the form."; if(S.meta.capture_mode==="assisted" && !S.meta.salesperson_name.trim()) return "Enter the salesperson's name."; return ""; }
+
+// STEP 2 — company information
+function stepCompany(){
+  const cat=S.company.business_category;
+  const wrap=el(`<div class="section">
+    <div class="grid">
+      ${field("Company Name", true, input("company.company_name"))}
+      ${field("Trading Name (if different)", false, input("company.trading_name"))}
+      ${field("Company / Business Registration Number", false, input("company.registration_no"), "BN / certificate of registration number.")}
+      ${field("Type of Business", true, input("company.type_of_business","placeholder='e.g. Retailer, Wholesaler, Distributor'"))}
+    </div>
+    <div class="section" style="margin:20px 0 0">
+      <span class="label">Business Category <span class="req">Required</span></span>
+      ${chipRow(BUSINESS_CATEGORY, cat)}
+      ${cat.includes("other")?`<div style="margin-top:12px">${field("Other Category", true, input("company.business_category_other"))}</div>`:""}
+    </div>
+    <div class="grid three" style="margin-top:20px">
+      ${field("PIN Number (KRA)", true, input("company.pin_number","placeholder='e.g. P051234567X'"), "Registered businesses start with P; personal PINs start with A.")}
+      ${field("VAT Number", false, input("company.vat_number"))}
+      ${field("Year Established", false, input("company.year_established","inputmode='numeric' placeholder='e.g. 2020'"))}
+    </div>
+  </div>`);
+  wireChips(wrap, cat);
+  return wrap;
+}
+function vCompany(){
+  if(!S.company.company_name.trim()) return "Enter the company name.";
+  if(!S.company.type_of_business.trim()) return "Enter the type of business.";
+  if(!S.company.business_category.length) return "Select at least one business category.";
+  if(S.company.business_category.includes("other") && !S.company.business_category_other.trim()) return "Describe the 'Other' business category.";
+  const pin=S.company.pin_number.trim();
+  if(!pin) return "KRA PIN number is required.";
+  if(!/^[A-Za-z]\d{9}[A-Za-z]$/.test(pin)) return "KRA PIN looks invalid — a letter, 9 digits, then a letter (e.g. P051234567X for a business, A… for personal).";
+  return "";
+}
+
+// STEP 3 — directors (each with a signature)
+function stepDirectors(){
+  const wrap=el(`<div class="section">
+    <p>List each director, partner or proprietor. Every person listed signs in their own box, exactly as on the paper form.</p>
+    <div id="dirList"></div>
+    <button type="button" class="btn" id="addDir">+ Add another person</button>
+  </div>`);
+  const list=wrap.querySelector("#dirList");
+  function draw(){
+    list.innerHTML="";
+    S.directors.forEach((d,i)=>{
+      const row=el(`<div class="cardrow">
+        <div class="rowhead"><b>Person ${i+1}</b>${S.directors.length>1?`<button type="button" class="rm" data-del="${i}">Remove</button>`:""}</div>
+        <div class="grid">
+          ${field("Name", true, `<input data-di="${i}" data-k="name" value="${esc(d.name)}">`)}
+          ${field("ID Number", true, `<input data-di="${i}" data-k="id_no" value="${esc(d.id_no)}">`)}
+          ${field("Address", false, `<input data-di="${i}" data-k="address" value="${esc(d.address)}">`)}
+          ${field("Mobile No.", false, `<input data-di="${i}" data-k="mobile" value="${esc(d.mobile)}" type="tel">`)}
+        </div>
+        <div style="margin-top:12px">
+          <span class="label">Signature <span class="req">Required</span></span>
+          <div class="sigwrap">
+            <canvas class="sigcanvas short" data-sig="${i}"></canvas>
+            <div class="sigbar"><button type="button" class="btn" data-sigclear="${i}">Clear</button><small>Sign with finger, stylus or mouse.</small></div>
+          </div>
+        </div>
+      </div>`);
+      row.querySelectorAll("input[data-di]").forEach(inp=>inp.addEventListener("input",()=>{ S.directors[inp.dataset.di][inp.dataset.k]=inp.value; persist(); }));
+      const del=row.querySelector("[data-del]");
+      if(del) del.addEventListener("click",()=>{ S.directors.splice(i,1); persist(); draw(); });
+      list.appendChild(row);
+      const canvas=row.querySelector(`canvas[data-sig="${i}"]`), clr=row.querySelector(`[data-sigclear="${i}"]`);
+      mountSigOn(canvas, clr, S.directors[i]);
+    });
+  }
+  wrap.querySelector("#addDir").addEventListener("click",()=>{ S.directors.push(director()); persist(); draw(); });
+  setTimeout(draw,0);
+  return wrap;
+}
+function vDirectors(){
+  if(!S.directors.length) return "Add at least one director / partner / proprietor.";
+  for(let i=0;i<S.directors.length;i++){
+    const d=S.directors[i];
+    if(!d.name.trim()) return `Enter the name for person ${i+1}.`;
+    if(!d.id_no.trim()) return `Enter the ID number for person ${i+1}.`;
+    if(!d.signature_base64) return `Person ${i+1} must sign.`;
+  }
+  return "";
+}
+
+// STEP 4 — delivery address (if different)
+function stepDelivery(){
+  const on=!!S.delivery.different;
+  const wrap=el(`<div class="section">
+    <div class="consent" style="margin-bottom:16px">
+      <input type="checkbox" id="delDiff" ${on?"checked":""}>
+      <label for="delDiff">The delivery address is different from the registered address above.</label>
+    </div>
+    <div id="delBox" style="${on?"":"display:none"}">
+      <div class="grid">
+        ${field("Name", true, input("delivery.name"))}
+        ${field("ID Number", false, input("delivery.id_no"))}
+        ${field("Delivery Address", true, input("delivery.address"))}
+        ${field("Mobile No.", false, input("delivery.mobile","type='tel'"))}
+      </div>
+      <div style="margin-top:12px">
+        <span class="label">Signature <span class="req">Required</span></span>
+        <div class="sigwrap">
+          <canvas class="sigcanvas short" id="delSig"></canvas>
+          <div class="sigbar"><button type="button" class="btn" id="delSigClear">Clear</button><small>Sign to confirm the delivery details.</small></div>
+        </div>
+      </div>
+    </div>
+  </div>`);
+  wrap.querySelector("#delDiff").addEventListener("change",e=>{ S.delivery.different=e.target.checked; persist(); render(); });
+  if(on){ setTimeout(()=>mountSigOn(wrap.querySelector("#delSig"), wrap.querySelector("#delSigClear"), S.delivery),0); }
+  return wrap;
+}
+function vDelivery(){
+  if(!S.delivery.different) return "";
+  if(!S.delivery.name.trim()) return "Enter the delivery contact name.";
+  if(!S.delivery.address.trim()) return "Enter the delivery address.";
+  if(!S.delivery.signature_base64) return "Please sign to confirm the delivery address.";
+  return "";
+}
+
+// STEP 5 — department contacts
+function contactBlock(title, base){
+  return `<div class="cardrow"><div class="rowhead"><b>${esc(title)}</b></div>
+    <div class="grid">
+      ${field("Main Contact", true, input(base+".name"))}
+      ${field("Position", false, input(base+".position"))}
+      ${field("Email Address", true, input(base+".email","type='email'"))}
+      ${field("Phone Number", true, input(base+".phone","type='tel'"))}
+    </div></div>`;
+}
+function stepContacts(){
+  return el(`<div class="section">
+    <p>Section 3 — the purchasing contact places orders; the accounts contact handles invoicing and payments.</p>
+    ${contactBlock("Purchasing department contact","purchasing_contact")}
+    ${contactBlock("Accounts department contact (invoicing & payments)","accounts_contact")}
+  </div>`);
+}
+function vContacts(){
+  const chk=(b,who)=>{
+    const c=S[b];
+    if(!c.name.trim()) return `Enter the ${who} contact name.`;
+    if(!c.phone.trim()) return `Enter the ${who} contact phone.`;
+    if(!c.email.trim()) return `Enter the ${who} contact email.`;
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(c.email.trim())) return `The ${who} contact email doesn't look right.`;
+    return "";
+  };
+  return chk("purchasing_contact","purchasing") || chk("accounts_contact","accounts");
+}
+
+// STEP 6 — business operations
+function stepOperations(){
+  const pl=S.operations.product_lines;
+  const wrap=el(`<div class="section">
+    <div class="grid">
+      ${field("Nature of Business", true, input("operations.nature_of_business","placeholder='e.g. Online Store, Physical Store'"))}
+      ${field("Number of Branches", false, input("operations.number_of_branches","inputmode='numeric'"))}
+      ${field("Average Monthly Orders (estimate)", false, input("operations.avg_monthly_orders","inputmode='numeric'"))}
+    </div>
+    <div class="section" style="margin:20px 0 0">
+      <span class="label">Product Lines of Interest <span class="req">Required</span></span>
+      ${chipRow(PRODUCT_LINES, pl)}
+      ${pl.includes("other")?`<div style="margin-top:12px">${field("Other Product Line", true, input("operations.product_lines_other"))}</div>`:""}
+    </div>
+  </div>`);
+  wireChips(wrap, pl);
+  return wrap;
+}
+function vOperations(){
+  if(!S.operations.nature_of_business.trim()) return "Enter the nature of business.";
+  if(!S.operations.product_lines.length) return "Select at least one product line of interest.";
+  if(S.operations.product_lines.includes("other") && !S.operations.product_lines_other.trim()) return "Describe the 'Other' product line.";
+  return "";
+}
+
+// STEP 7 — trade references
+function stepReferences(){
+  const wrap=el(`<div class="section">
+    <p>Please provide details of two suppliers who trade with this business. At least one is required.</p>
+    <div id="refList"></div>
+  </div>`);
+  const list=wrap.querySelector("#refList");
+  S.trade_references.forEach((r,i)=>{
+    const row=el(`<div class="cardrow"><div class="rowhead"><b>Supplier ${i+1}${i===0?"":" (optional)"}</b></div>
+      <div class="grid">
+        ${field("Supplier Name", i===0, `<input data-ri="${i}" data-k="supplier_name" value="${esc(r.supplier_name)}">`)}
+        ${field("Contact Person", false, `<input data-ri="${i}" data-k="contact_person" value="${esc(r.contact_person)}">`)}
+        ${field("Email", false, `<input data-ri="${i}" data-k="email" type="email" value="${esc(r.email)}">`)}
+        ${field("Phone No.", i===0, `<input data-ri="${i}" data-k="phone" type="tel" value="${esc(r.phone)}">`)}
+      </div></div>`);
+    row.querySelectorAll("input[data-ri]").forEach(inp=>inp.addEventListener("input",()=>{ S.trade_references[inp.dataset.ri][inp.dataset.k]=inp.value; persist(); }));
+    list.appendChild(row);
+  });
+  return wrap;
+}
+function vReferences(){
+  const r=S.trade_references[0]||{};
+  if(!r.supplier_name || !r.supplier_name.trim()) return "Enter at least the first supplier's name.";
+  if(!r.phone || !r.phone.trim()) return "Enter the first supplier's phone number.";
+  return "";
+}
+
+// STEP 8 — payment terms & conditions
+function stepPayment(){
+  const p=S.payment;
+  const wrap=el(`<div class="section">
+    <div class="section" style="margin-bottom:20px">
+      <span class="label">Preferred Payment Method <span class="req">Required</span></span>
+      ${chipRow(PAYMENT_METHODS, p.preferred_methods)}
+    </div>
+    <div class="section" style="margin-bottom:20px">
+      <span class="label">Payment Terms <span class="req">Required</span></span>
+      <div class="choices" id="ptTerms">${PAYMENT_TERMS.map(([v,l])=>`<button type="button" class="choice ${p.payment_terms===v?'on':''}" data-term="${v}">${esc(l)}</button>`).join("")}</div>
+    </div>
+    <div class="section" style="margin-bottom:22px">
+      <span class="label">Goods to be Ordered By <span class="req">Required</span></span>
+      ${chipRow(ORDER_BY, p.order_by)}
+    </div>
+    <div class="info">
+      <h5>Loki Ventures banking information (for your payments)</h5>
+      <dl>
+        <dt>Bank</dt><dd>${esc(LOKI_BANKING.bank_name)}</dd>
+        <dt>Branch</dt><dd>${esc(LOKI_BANKING.branch)}</dd>
+        <dt>Account name</dt><dd>${esc(LOKI_BANKING.account_name)}</dd>
+        <dt>Account number</dt><dd>${esc(LOKI_BANKING.account_number)}</dd>
+        <dt>M-PESA Buy Goods Till</dt><dd>${esc(LOKI_BANKING.mpesa_till)}</dd>
+      </dl>
+    </div>
+  </div>`);
+  wireChips(wrap, p.preferred_methods);
+  wireChips(wrap, p.order_by);
+  wrap.querySelectorAll("#ptTerms .choice").forEach(b=>b.addEventListener("click",()=>{ S.payment.payment_terms=b.dataset.term; persist(); render(); }));
+  return wrap;
+}
+function vPayment(){
+  if(!S.payment.preferred_methods.length) return "Select at least one preferred payment method.";
+  if(!S.payment.payment_terms) return "Select the payment terms.";
+  if(!S.payment.order_by.length) return "Select how goods will be ordered.";
+  return "";
+}
+
+// STEP 9 — return & expiry policy
+function stepPolicy(){
+  const wrap=el(`<div class="section">
+    <p>By acknowledging below, you agree to the following terms regarding returns and expired goods:</p>
+    <ol class="policy">${RETURN_POLICY.map(t=>`<li>${esc(t)}</li>`).join("")}</ol>
+    <div class="consent" style="margin-top:16px">
+      <input type="checkbox" id="policyAck" ${S.policy_ack?"checked":""}>
+      <label for="policyAck">I have read and agree to the Return &amp; Expiry Goods Policy above.</label>
+    </div>
+  </div>`);
+  wrap.querySelector("#policyAck").addEventListener("change",e=>{ S.policy_ack=e.target.checked; persist(); });
+  return wrap;
+}
+function vPolicy(){ return S.policy_ack ? "" : "Please acknowledge the Return & Expiry Goods Policy to continue."; }
+
+// STEP 10 — documents
+const DOC_KINDS=[["kra_pin","KRA PIN Certificate"],["business_reg","Business Registration Certificate"],["id","National ID / Passport of a Signatory"],["other","Other Supporting Document"]];
+const MAX_FILE=4*1024*1024;
+function stepDocs(){
+  const wrap=el(`<div class="section">
+    <div class="callout"><b>Recommended for a credit account.</b>Accepted files: images or PDF, up to 4&nbsp;MB each. You can submit without them, but approval may be held until they're received.</div>
+    <div class="grid" id="docGrid"></div>
+  </div>`);
+  const grid=wrap.querySelector("#docGrid");
+  DOC_KINDS.forEach(([kind,label])=>{
+    const existing=S.attachments.find(a=>a.kind===kind);
+    const box=el(`<div class="filebox">
+      <span class="label">${esc(label)} <span class="opt">Optional</span></span>
+      <input type="file" accept="image/*,application/pdf" data-kind="${kind}">
+      <div class="name">${existing?esc(existing.filename):"No file chosen"}</div>
+      ${existing&&existing.mime&&existing.mime.startsWith("image/")&&existing.data?`<img class="thumb" src="data:${esc(existing.mime)};base64,${existing.data}">`:""}
+    </div>`);
+    box.querySelector("input").addEventListener("change",(e)=>onFile(e,kind,box));
+    grid.appendChild(box);
+  });
+  return wrap;
+}
+function onFile(e,kind,box){
+  const f=e.target.files[0]; if(!f) return;
+  if(f.size>MAX_FILE){ toast("That file is larger than 4 MB. Please choose a smaller file.",true); e.target.value=""; return; }
+  const reader=new FileReader();
+  reader.onload=()=>{
+    const b64=String(reader.result).split(",")[1]||"";
+    S.attachments=S.attachments.filter(a=>a.kind!==kind);
+    S.attachments.push({kind,filename:f.name,mime:f.type||"application/octet-stream",data:b64});
+    persist();
+    box.querySelector(".name").textContent=f.name;
+    const old=box.querySelector(".thumb"); if(old) old.remove();
+    if((f.type||"").startsWith("image/")){ const img=el(`<img class="thumb" src="data:${f.type};base64,${b64}">`); box.appendChild(img); }
+  };
+  reader.readAsDataURL(f);
+}
+function vDocs(){ return ""; } // optional
+
+// STEP 11 — review & authorise
+function labelsOf(codes, list){ return (codes||[]).map(c=>{ const m=list.find(x=>x[0]===c); return m?m[1]:c; }).join(", "); }
+function stepReview(){
+  const co=S.company, op=S.operations, pay=S.payment;
+  const cats=labelsOf(co.business_category, BUSINESS_CATEGORY)+(co.business_category.includes("other")&&co.business_category_other?` (${co.business_category_other})`:"");
+  const prods=labelsOf(op.product_lines, PRODUCT_LINES)+(op.product_lines.includes("other")&&op.product_lines_other?` (${op.product_lines_other})`:"");
+  const wrap=el(`<div class="section">
+    <div class="review">
+      ${rgroup("Company",[["Company name",co.company_name],["Trading name",co.trading_name],["Registration no.",co.registration_no],["Type of business",co.type_of_business],["Business category",cats],["PIN number",co.pin_number],["VAT number",co.vat_number],["Year established",co.year_established]])}
+      ${rgroup("Directors / Partners", S.directors.map((d,i)=>[`Person ${i+1}`, `${d.name}${d.id_no?" · ID "+d.id_no:""}${d.signature_base64?" · signed":""}`]))}
+      ${S.delivery.different?rgroup("Delivery Address",[["Name",S.delivery.name],["Address",S.delivery.address],["Mobile",S.delivery.mobile],["Signed",S.delivery.signature_base64?"Yes":"No"]]):""}
+      ${rgroup("Purchasing Contact",[["Name",S.purchasing_contact.name],["Position",S.purchasing_contact.position],["Email",S.purchasing_contact.email],["Phone",S.purchasing_contact.phone]])}
+      ${rgroup("Accounts Contact",[["Name",S.accounts_contact.name],["Position",S.accounts_contact.position],["Email",S.accounts_contact.email],["Phone",S.accounts_contact.phone]])}
+      ${rgroup("Operations",[["Nature of Business",op.nature_of_business],["Branches",op.number_of_branches],["Avg Monthly Orders",op.avg_monthly_orders],["Product Lines",prods]])}
+      ${rgroup("Trade References", S.trade_references.filter(r=>r.supplier_name).map((r,i)=>[`Supplier ${i+1}`, `${r.supplier_name}${r.contact_person?" · "+r.contact_person:""}${r.phone?" · "+r.phone:""}`]))}
+      ${rgroup("Payment",[["Methods",labelsOf(pay.preferred_methods,PAYMENT_METHODS)],["Terms",labelsOf([pay.payment_terms],PAYMENT_TERMS)],["Order by",labelsOf(pay.order_by,ORDER_BY)]])}
+      ${rgroup("Documents", S.attachments.length?S.attachments.map(a=>[a.kind,a.filename]):[["Attached","None"]])}
+      ${rgroup("Policy",[["Return & expiry policy",S.policy_ack?"Acknowledged":"Not acknowledged"]])}
+    </div>
+
+    <div class="section" style="margin-top:26px">
+      <h4>Signatures &amp; authorisation</h4>
+      <p>I, the undersigned, certify that the information provided is accurate and agree to the terms outlined in this application form, including the return policy and expiry of goods.</p>
+      <div class="grid">
+        ${field("Name", true, input("authorization.name"))}
+        ${field("Position", true, input("authorization.position","placeholder='e.g. Director, Proprietor'"))}
+        ${field("Date", true, input("authorization.date","type='date'"))}
+      </div>
+      <div class="sigwrap" style="margin-top:14px">
+        <canvas class="sigcanvas" id="authSig"></canvas>
+        <div class="sigbar"><button type="button" class="btn" id="authSigClear">Clear</button><small>Sign above with your finger, stylus or mouse.</small></div>
+      </div>
+      <div class="consent" style="margin-top:14px">
+        <input type="checkbox" id="consent" ${S.authorization.consent_data_processing?"checked":""}>
+        <label for="consent">I am authorised to open this account, and I consent to Loki Ventures processing this data to create and manage the account, in line with the Data Protection Act (2019).</label>
+      </div>
+    </div>
+  </div>`);
+  wrap.querySelector("#consent").addEventListener("change",e=>{ S.authorization.consent_data_processing=e.target.checked; persist(); });
+  setTimeout(()=>mountSigOn(wrap.querySelector("#authSig"), wrap.querySelector("#authSigClear"), S.authorization),0);
+  return wrap;
+}
+function rgroup(title, rows){
+  const body=(rows.length?rows:[["—","—"]]).map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v||"—")}</dd>`).join("");
+  return `<div class="rgroup"><h5>${esc(title)}</h5><dl>${body}</dl></div>`;
+}
+function vReview(){
+  if(!S.authorization.name.trim()) return "Enter the authorising person's name.";
+  if(!S.authorization.position.trim()) return "Enter the authorising person's position.";
+  if(!S.authorization.date) return "Enter the date.";
+  if(!S.authorization.signature_base64) return "Please sign in the authorisation box.";
+  if(!S.authorization.consent_data_processing) return "Please tick the consent box to continue.";
+  return "";
+}
+
+// ---- signature pad (reusable) ---------------------------------------------
+function mountSigOn(canvas, clearBtn, obj){
+  if(!canvas) return;
+  const ctx=canvas.getContext("2d");
+  let drawing=false, last=null, dirty=!!obj.signature_base64;
+  function size(){
+    const ratio=window.devicePixelRatio||1, w=canvas.clientWidth, h=canvas.clientHeight;
+    canvas.width=w*ratio; canvas.height=h*ratio; ctx.scale(ratio,ratio);
+    ctx.lineWidth=2.2; ctx.lineCap="round"; ctx.lineJoin="round"; ctx.strokeStyle="#14302b";
+    if(obj.signature_base64){ const img=new Image(); img.onload=()=>ctx.drawImage(img,0,0,w,h); img.src="data:image/png;base64,"+obj.signature_base64; }
+  }
+  size();
+  const pos=(e)=>{ const r=canvas.getBoundingClientRect(); const p=e.touches?e.touches[0]:e; return {x:p.clientX-r.left, y:p.clientY-r.top}; };
+  function start(e){ e.preventDefault(); drawing=true; last=pos(e); }
+  function move(e){ if(!drawing) return; e.preventDefault(); const p=pos(e); ctx.beginPath(); ctx.moveTo(last.x,last.y); ctx.lineTo(p.x,p.y); ctx.stroke(); last=p; dirty=true; }
+  function end(){ if(!drawing) return; drawing=false; if(dirty){ obj.signature_base64=canvas.toDataURL("image/png").split(",")[1]; obj.signed_at=new Date().toISOString(); persist(); } }
+  canvas.addEventListener("mousedown",start); canvas.addEventListener("mousemove",move); window.addEventListener("mouseup",end);
+  canvas.addEventListener("touchstart",start,{passive:false}); canvas.addEventListener("touchmove",move,{passive:false}); canvas.addEventListener("touchend",end);
+  clearBtn.addEventListener("click",()=>{ ctx.clearRect(0,0,canvas.width,canvas.height); obj.signature_base64=""; obj.signed_at=""; dirty=false; persist(); });
+}
+
+// ---- render / navigation --------------------------------------------------
+function render(){
+  const s=steps[step];
+  document.getElementById("stepNo").textContent=step+1;
+  document.getElementById("stepTitle").textContent=s.title;
+  document.getElementById("stepSub").textContent=s.sub;
+  const body=document.getElementById("stepBody"); body.innerHTML=""; body.appendChild(s.render());
+  body.querySelectorAll("[data-path]").forEach(inp=>{
+    inp.addEventListener("input",()=>{ set(inp.dataset.path, inp.value); persist(); });
+    inp.addEventListener("change",()=>{ set(inp.dataset.path, inp.value); persist(); });
+  });
+  const track=document.getElementById("track"); track.innerHTML="";
+  steps.forEach((_,i)=>{ const sp=document.createElement("span"); if(i<=step) sp.className="on"; track.appendChild(sp); });
+  document.getElementById("backBtn").style.visibility = step===0?"hidden":"visible";
+  const last = step===steps.length-1;
+  document.getElementById("nextBtn").style.display = last?"none":"inline-block";
+  document.getElementById("submitBtn").style.display = last?"inline-block":"none";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function next(){ const err=steps[step].validate(); if(err){ toast(err,true); return; } if(step<steps.length-1){ step++; render(); } }
+function back(){ if(step>0){ step--; render(); } }
+
+document.getElementById("nextBtn").addEventListener("click",next);
+document.getElementById("backBtn").addEventListener("click",back);
+document.getElementById("submitBtn").addEventListener("click",submit);
+document.getElementById("resetBtn").addEventListener("click",()=>{
+  if(confirm("Clear this application and start over?")){ localStorage.removeItem(STORAGE_KEY); S=blank(); step=0; render(); }
+});
+
+function toast(msg,bad){ const t=document.getElementById("toast"); t.textContent=msg; t.className="toast show"+(bad?" bad":""); clearTimeout(t._t); t._t=setTimeout(()=>t.className="toast",bad?4200:2600); }
+
+async function submit(){
+  const err=steps[step].validate(); if(err){ toast(err,true); return; }
+  const btn=document.getElementById("submitBtn"); btn.disabled=true; btn.textContent="Submitting…";
+  const payload=JSON.parse(JSON.stringify(S)); // includes signatures + attachments (in memory)
+  try{
+    const res=await fetch(SUBMIT_ENDPOINT,{ method:"POST", headers:{"Content-Type":"application/json","X-Account-Submit":"v1"}, body:JSON.stringify(payload) });
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok || !data.saved){ throw new Error(data.error||("Server returned "+res.status)); }
+    localStorage.removeItem(STORAGE_KEY);
+    showDone(data);
+  }catch(e){
+    btn.disabled=false; btn.textContent="Sign & submit";
+    toast("Could not submit: "+e.message+". Your details are still saved on this device.",true);
+  }
+}
+function showDone(data){
+  document.getElementById("hero").style.display="none";
+  const card=document.querySelector(".card");
+  const ref=data.submission_id||"received";
+  card.innerHTML=`<div class="done">
+    <div class="tick">✓</div>
+    <h3 style="margin:0 0 8px">Application submitted</h3>
+    <p style="color:var(--muted);max-width:520px;margin:0 auto 6px">Thank you. Your account application has been sent to the Loki Ventures accounts team for review.</p>
+    <p style="color:var(--muted);max-width:520px;margin:0 auto">Reference: <b>${esc(ref)}</b>${data.emailed===false?'<br><small>(saved — the team will be notified shortly)</small>':''}</p>
+    <div style="margin-top:22px"><button class="btn" onclick="location.reload()">Start a new application</button></div>
+  </div>`;
+}
+
+render();
+</script>
+</body>
+</html>

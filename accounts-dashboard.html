@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#123c35">
+  <title>Accounts Review — Customer Applications</title>
+  <style>
+    :root{
+      --bg:#f3f1e9;--paper:#fffefa;--ink:#17332f;--muted:#63706d;--line:#d9ddd7;
+      --brand:#123c35;--brand2:#1f675a;--accent:#e4a33a;--soft:#e6f0ec;--warn:#fff1d6;
+      --bad:#9f3d31;--good:#247052;--shadow:0 18px 50px rgba(24,48,42,.12);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(135deg,#eff0e8,#f8f4ea 48%,#e9f0ec);
+      color:var(--ink);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    .top{position:sticky;top:0;z-index:20;background:rgba(18,60,53,.97);color:white;box-shadow:0 4px 20px rgba(0,0,0,.12)}
+    .topin{max-width:1260px;margin:auto;padding:14px 22px;display:flex;align-items:center;gap:16px}
+    .eyebrow{text-transform:uppercase;letter-spacing:.13em;font-size:11px;color:#bad5ce;font-weight:800}
+    .brand h1{font-size:18px;line-height:1.15;margin:3px 0 0}
+    .tabs{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+    .tab{border:1px solid rgba(255,255,255,.3);background:transparent;color:#e7f0ed;border-radius:999px;padding:7px 14px;font-weight:700}
+    .tab.on{background:var(--accent);border-color:var(--accent);color:#2d271e}
+    .tab .n{opacity:.7;margin-left:5px}
+    .whoami{font-size:12px;color:#c8dcd7}
+    main{max-width:1260px;margin:0 auto;padding:22px;display:grid;grid-template-columns:380px 1fr;gap:20px;align-items:start}
+    .panel{background:var(--paper);border:1px solid rgba(23,51,47,.09);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+    .listhead{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+    .listhead input{flex:1;border:1px solid #cbd2ce;border-radius:9px;padding:8px 10px}
+    .list{max-height:calc(100vh - 190px);overflow:auto}
+    .row{padding:13px 16px;border-bottom:1px solid #eef1ec;cursor:pointer}
+    .row:hover{background:#f6f8f5}
+    .row.on{background:var(--soft);box-shadow:inset 3px 0 0 var(--brand)}
+    .row b{display:block;font-size:14px}
+    .row small{color:var(--muted)}
+    .badge{display:inline-block;font-size:11px;font-weight:800;padding:3px 8px;border-radius:99px;text-transform:uppercase;letter-spacing:.04em}
+    .badge.pending{background:#eef2ef;color:#5d6966}
+    .badge.approved{background:#dff1e8;color:var(--good)}
+    .badge.rejected{background:#f6e2df;color:var(--bad)}
+    .badge.created{background:#dfe8f6;color:#2c4a8a}
+    .warnpill{background:var(--warn);color:#8a5d12;font-weight:800;font-size:11px;border-radius:99px;padding:2px 8px}
+    .detail{padding:0}
+    .dhead{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap}
+    .dhead h2{margin:0;font-size:20px}
+    .dhead .sub{color:var(--muted);font-size:13px;margin-top:2px}
+    .dbody{padding:22px;display:grid;grid-template-columns:1fr 340px;gap:22px}
+    @media(max-width:1050px){main{grid-template-columns:1fr}.dbody{grid-template-columns:1fr}}
+    h3.sec{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--brand);margin:18px 0 8px}
+    h3.sec:first-child{margin-top:0}
+    dl{margin:0;display:grid;grid-template-columns:150px 1fr;gap:2px 12px}
+    dt{color:var(--muted);padding:5px 0}
+    dd{margin:0;padding:5px 0;border-bottom:1px dashed #eceee9}
+    .flags{display:grid;gap:8px;margin:4px 0 0}
+    .flag{border-radius:10px;padding:9px 12px;font-size:13px;border-left:4px solid}
+    .flag.warn{background:var(--warn);border-color:var(--accent);color:#7a5310}
+    .flag.info{background:#eef2ef;border-color:#9fb3ac;color:#43514d}
+    .files a{display:inline-block;margin:0 8px 8px 0;border:1px solid #cbd2ce;border-radius:9px;padding:7px 11px;color:var(--brand);text-decoration:none;font-weight:700}
+    .sig{border:1px solid #cbd2ce;border-radius:10px;max-width:320px;background:#fff;margin-top:6px}
+    .aside{background:#fbfaf5;border:1px solid var(--line);border-radius:14px;padding:16px;position:sticky;top:86px}
+    .aside h3{margin:0 0 4px;font-size:15px}
+    .aside p.note{color:var(--muted);font-size:12px;margin:0 0 14px}
+    .field{display:block;margin-bottom:12px}
+    .field .l{display:block;font-weight:700;margin-bottom:5px;font-size:13px}
+    .field input,.field select,.field textarea{width:100%;border:1px solid #cbd2ce;border-radius:9px;padding:9px 11px}
+    .rec{font-size:12px;color:var(--good);margin-top:3px}
+    .btns{display:flex;gap:10px;margin-top:6px}
+    .btn{border:1px solid #bac6c1;background:white;color:var(--ink);border-radius:10px;padding:11px 16px;font-weight:800;flex:1}
+    .btn.approve{background:var(--good);border-color:var(--good);color:white}
+    .btn.reject{background:var(--bad);border-color:var(--bad);color:white}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+    .decided{border:1px solid var(--line);border-radius:14px;padding:16px;background:#fff}
+    .empty{padding:50px 24px;text-align:center;color:var(--muted)}
+    .toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);background:var(--brand);color:white;padding:13px 18px;border-radius:12px;box-shadow:var(--shadow);z-index:60;display:none;max-width:90vw}
+    .toast.show{display:block}.toast.bad{background:var(--bad)}
+    .gate{max-width:420px;margin:80px auto;padding:26px}
+    .gate .panel{padding:24px}
+    .auditlog{margin-top:8px;font:12px/1.5 ui-monospace,Consolas,monospace;color:#42504c}
+    .auditlog div{padding:4px 0;border-bottom:1px dashed #eceee9}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="topin">
+      <div class="brand"><div class="eyebrow">Loki Ventures · Accounts</div><h1>Customer Application Review</h1></div>
+      <div class="tabs" id="tabs"></div>
+      <div class="whoami" id="whoami"></div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="panel">
+      <div class="listhead"><input id="search" placeholder="Search name, town, PIN…"><button class="tab" id="refresh" style="border-color:#cbd2ce;color:var(--ink)">↻</button></div>
+      <div class="list" id="list"><div class="empty">Loading…</div></div>
+    </section>
+    <section class="panel detail" id="detail"><div class="empty">Select an application on the left to review it.</div></section>
+  </main>
+
+  <div id="gate" style="display:none"></div>
+  <div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+const TERMS = {}; // filled from reference data
+const MAPS = {}; // code->label maps for category / product / method / order-by
+let REF = {payment_terms:[],price_lists:[],customer_groups:[],business_category:[],product_lines:[],payment_methods:[],order_by:[]};
+function labsOf(codes, map){ return (codes||[]).map(c=>map[c]||c).join(", "); }
+let TAB = "pending", ITEMS = [], CURRENT = null, SEARCH = "";
+const STATUSES = [["pending","Pending"],["approved","Approved"],["rejected","Rejected"],["created","Created"],["all","All"]];
+
+const $ = s => document.querySelector(s);
+const esc = v => (v==null?"":String(v)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const tokenKey="loki.review.token", reviewerKey="loki.reviewer.name";
+function token(){ return sessionStorage.getItem(tokenKey)||""; }
+function qtoken(){ return token()?("?token="+encodeURIComponent(token())):""; }
+function reviewer(){ return localStorage.getItem(reviewerKey)||""; }
+
+async function api(path, opts={}){
+  const headers = Object.assign({}, opts.headers||{});
+  if(token()) headers["X-Review-Token"]=token();
+  if(opts.body) headers["Content-Type"]="application/json";
+  const res = await fetch(path, Object.assign({}, opts, {headers}));
+  if(res.status===401){ showGate(true); throw new Error("Unauthorized"); }
+  const data = await res.json().catch(()=>({}));
+  if(!res.ok) throw new Error(data.error||("HTTP "+res.status));
+  return data;
+}
+function toast(msg,bad){ const t=$("#toast"); t.textContent=msg; t.className="toast show"+(bad?" bad":""); clearTimeout(t._t); t._t=setTimeout(()=>t.className="toast",bad?4200:2600); }
+
+// ---- token gate ------------------------------------------------------------
+function showGate(force){
+  const g=$("#gate");
+  g.style.display="block"; $("#main").style.display="none";
+  g.innerHTML=`<div class="gate"><div class="panel"><h2 style="margin:0 0 6px">Reviewer sign-in</h2>
+    <p style="color:var(--muted);margin:0 0 16px">This dashboard is protected. Enter the review access token.</p>
+    <input id="tok" type="password" placeholder="Review token" style="width:100%;border:1px solid #cbd2ce;border-radius:9px;padding:11px">
+    <button class="btn approve" style="margin-top:12px;width:100%" id="tokGo">Continue</button></div></div>`;
+  $("#tokGo").onclick=async()=>{
+    sessionStorage.setItem(tokenKey, $("#tok").value.trim());
+    try{ await api("/api/reference-data"); g.style.display="none"; $("#main").style.display="grid"; boot(); }
+    catch(e){ toast("Invalid token",true); }
+  };
+  if(force) toast("Please sign in again",true);
+}
+
+// ---- rendering -------------------------------------------------------------
+function renderTabs(){
+  $("#tabs").innerHTML = STATUSES.map(([k,l])=>`<button class="tab ${TAB===k?'on':''}" data-tab="${k}">${l}</button>`).join("");
+  $("#tabs").querySelectorAll(".tab").forEach(b=>b.onclick=()=>{TAB=b.dataset.tab; loadList();});
+  $("#whoami").textContent = reviewer()?("Reviewer: "+reviewer()):"";
+}
+function statusBadge(s){ return `<span class="badge ${esc(s)}">${esc(s)}</span>`; }
+function money(v){ const n=Number(v||0); return "KES "+ (isNaN(n)?v:n.toLocaleString()); }
+
+function renderList(){
+  const q=SEARCH.toLowerCase();
+  const rows = ITEMS.filter(it=> !q || (it.customer_name+" "+it.location+" "+it.type_of_business).toLowerCase().includes(q));
+  if(!rows.length){ $("#list").innerHTML=`<div class="empty">No ${TAB==='all'?'':TAB} applications.</div>`; return; }
+  $("#list").innerHTML = rows.map(it=>`
+    <div class="row ${CURRENT===it.id?'on':''}" data-id="${esc(it.id)}">
+      <b>${esc(it.customer_name||"—")}</b>
+      <small>${esc(it.type_of_business||"")}${it.location?" · "+esc(it.location):""} · ${esc(TERMS[it.payment_terms]||it.payment_terms||"")}</small>
+      <div style="margin-top:7px;display:flex;gap:8px;align-items:center">
+        ${statusBadge(it.status)} ${it.warn_flags?`<span class="warnpill">${it.warn_flags} ⚠</span>`:""}
+        <small style="margin-left:auto">${esc((it.received_at||"").slice(0,10))}</small>
+      </div>
+    </div>`).join("");
+  $("#list").querySelectorAll(".row").forEach(r=>r.onclick=()=>openDetail(r.dataset.id));
+}
+
+async function loadList(){
+  renderTabs();
+  try{
+    const data = await api("/api/submissions?status="+encodeURIComponent(TAB));
+    ITEMS = data.submissions||[];
+    // refresh tab counts
+    renderList();
+  }catch(e){ if(e.message!=="Unauthorized") toast(e.message,true); }
+}
+
+function dl(pairs){ return "<dl>"+pairs.map(([k,v])=>`<dt>${esc(k)}</dt><dd>${esc(v||"—")}</dd>`).join("")+"</dl>"; }
+
+async function openDetail(id){
+  CURRENT=id; renderList();
+  $("#detail").innerHTML=`<div class="empty">Loading…</div>`;
+  let d;
+  try{ d = await api("/api/submissions/"+encodeURIComponent(id)); }
+  catch(e){ $("#detail").innerHTML=`<div class="empty">${esc(e.message)}</div>`; return; }
+  const r=d.record, co=r.company||{}, op=r.operations||{}, pay=r.payment||{}, auth=r.authorization||{}, del=r.delivery||{}, ap=r.approval||{}, meta=r.meta||{};
+  const pc=r.purchasing_contact||{}, ac=r.accounts_contact||{};
+  const rec=(d.recommendation&&d.recommendation.proposal)||{};
+  const flags=(d.recommendation&&d.recommendation.flags)||[];
+  const refs=(r.trade_references||[]).filter(x=>x&&x.supplier_name);
+  const dirs=r.directors||[];
+
+  const fileUrl = f => `/api/submissions/${encodeURIComponent(id)}/files/${encodeURIComponent(f)}${qtoken()}`;
+  const files = d.files||[];
+  const nonSig = files.filter(f=>!f.endsWith("-signature.png") && f!=="signature.png");
+  const filesHtml = nonSig.map(f=>`<a href="${fileUrl(f)}" target="_blank">${esc(f)}</a>`).join("") || "<span style='color:var(--muted)'>None</span>";
+  const sigImg = f => files.includes(f) ? `<img class="sig" src="${fileUrl(f)}">` : "<span style='color:var(--muted)'>not signed</span>";
+
+  const cats = labsOf(co.business_category, MAPS.business_category) + ((co.business_category||[]).includes("other")&&co.business_category_other?` (${co.business_category_other})`:"");
+  const prods = labsOf(op.product_lines, MAPS.product_lines) + ((op.product_lines||[]).includes("other")&&op.product_lines_other?` (${op.product_lines_other})`:"");
+
+  const dirsHtml = dirs.length ? dirs.map((x,i)=>`<div style="border-bottom:1px dashed #eceee9;padding:8px 0">
+    <b>${esc(x.name||"—")}</b> · ID ${esc(x.id_no||"—")}${x.mobile?" · "+esc(x.mobile):""}${x.address?"<br><small style='color:var(--muted)'>"+esc(x.address)+"</small>":""}
+    <div>${sigImg("director-"+String(i).padStart(2,"0")+"-signature.png")}</div></div>`).join("") : "<p style='color:var(--muted);margin:0'>None listed</p>";
+
+  const auditHtml = (d.audit||[]).map(a=>`<div>#${a.seq} · ${esc((a.at||"").replace("T"," ").slice(0,19))} · <b>${esc(a.action)}</b> by ${esc(a.actor)}${a.details&&Object.keys(a.details).length?" · "+esc(JSON.stringify(a.details)):""}</div>`).join("") || "<div style='color:var(--muted)'>No audit entries yet.</div>";
+
+  const flagsHtml = flags.length ? `<div class="flags">${flags.map(f=>`<div class="flag ${esc(f.level)}">${esc(f.message)}</div>`).join("")}</div>` : "<p style='color:var(--good);margin:0'>No flags — looks clean.</p>";
+
+  const deliveryHtml = del.different ? `<h3 class="sec">Delivery address</h3>${dl([["Name",del.name],["Address",del.address],["Mobile",del.mobile],["ID",del.id_no]])}<div>${sigImg("delivery-signature.png")}</div>` : "";
+
+  $("#detail").innerHTML=`
+    <div class="dhead">
+      <div><h2>${esc(co.company_name||"—")} ${statusBadge(ap.status||"pending")}</h2>
+        <div class="sub">Ref ${esc(id)} · received ${esc((meta.received_at||"").replace("T"," ").slice(0,19))} · ${esc(meta.capture_mode||"")}${meta.salesperson_name?(" · "+esc(meta.salesperson_name)):""}</div></div>
+    </div>
+    <div class="dbody">
+      <div>
+        <h3 class="sec">Review flags</h3>${flagsHtml}
+        <h3 class="sec">Company</h3>${dl([["Company name",co.company_name],["Trading name",co.trading_name],["Reg. no.",co.registration_no],["Type of business",co.type_of_business],["Category",cats],["KRA PIN",co.pin_number],["VAT no.",co.vat_number],["Year established",co.year_established]])}
+        <h3 class="sec">Directors / partners</h3>${dirsHtml}
+        ${deliveryHtml}
+        <h3 class="sec">Purchasing contact</h3>${dl([["Name",pc.name],["Position",pc.position],["Email",pc.email],["Phone",pc.phone]])}
+        <h3 class="sec">Accounts contact</h3>${dl([["Name",ac.name],["Position",ac.position],["Email",ac.email],["Phone",ac.phone]])}
+        <h3 class="sec">Operations</h3>${dl([["Nature of business",op.nature_of_business],["Branches",op.number_of_branches],["Avg monthly orders",op.avg_monthly_orders],["Product lines",prods]])}
+        <h3 class="sec">Payment</h3>${dl([["Methods",labsOf(pay.preferred_methods,MAPS.payment_methods)],["Requested terms",TERMS[pay.payment_terms]||pay.payment_terms],["Order by",labsOf(pay.order_by,MAPS.order_by)]])}
+        <h3 class="sec">Trade references</h3>${refs.length?dl(refs.map(x=>[x.supplier_name||"—",[x.contact_person,x.phone,x.email].filter(Boolean).join(" · ")])):"<p style='color:var(--muted);margin:0'>None</p>"}
+        <h3 class="sec">Documents</h3><div class="files">${filesHtml}</div>
+        <h3 class="sec">Authorisation</h3>${dl([["Name",auth.name],["Position",auth.position],["Date",auth.date],["Signed at",auth.signed_at],["Return policy",r.policy_ack?"Acknowledged":"Not acknowledged"],["Consent",auth.consent_data_processing?"Yes":"No"]])}
+        <div>${sigImg("authorization-signature.png")}</div>
+        <h3 class="sec">Audit trail</h3><div class="auditlog">${auditHtml}</div>
+      </div>
+      <div>${decisionPanel(id, ap, rec)}</div>
+    </div>`;
+  if(ap.status==="pending") wireDecision(id, rec);
+  else if(ap.status==="approved") wireErp(id);
+}
+
+function wireErp(id){
+  const out=$("#erpOut");
+  $("#erpDry").onclick=async()=>{
+    out.style.display="block"; out.textContent="Building payload…";
+    try{
+      const d=await api("/api/submissions/"+encodeURIComponent(id)+"/create-erp",{method:"POST",body:JSON.stringify({dry_run:true})});
+      const warn=(d.warnings||[]).length?("\n\n⚠ "+d.warnings.join("\n⚠ ")):"";
+      out.textContent="SAP BusinessPartners payload:\n\n"+JSON.stringify(d.payload,null,2)+warn;
+    }catch(e){ out.textContent="Error: "+e.message; }
+  };
+  $("#erpCreate").onclick=async()=>{
+    const who=$("#erpWho").value.trim();
+    if(!who){ toast("Enter your name",true); return; }
+    localStorage.setItem(reviewerKey,who); $("#whoami").textContent="Reviewer: "+who;
+    if(!confirm("Create this customer in SAP Business One now?")) return;
+    $("#erpCreate").disabled=true; $("#erpDry").disabled=true; out.style.display="block"; out.textContent="Creating in SAP…";
+    try{
+      const d=await api("/api/submissions/"+encodeURIComponent(id)+"/create-erp",{method:"POST",body:JSON.stringify({reviewer:who})});
+      toast("Created in SAP as "+d.erp_customer_code);
+      await loadList(); openDetail(id);
+    }catch(e){ out.textContent="Error: "+e.message; toast(e.message,true); $("#erpCreate").disabled=false; $("#erpDry").disabled=false; }
+  };
+}
+
+function opts(list, sel, isPair){
+  return list.map(o=>{ const v=isPair?o[0]:o, l=isPair?o[1]:o; return `<option value="${esc(v)}" ${sel===v?"selected":""}>${esc(l)}</option>`; }).join("");
+}
+
+function decisionPanel(id, ap, rec){
+  if(ap.status && ap.status!=="pending"){
+    const decided = `<div class="decided">${dl([["Status",ap.status],["Reviewed by",ap.reviewed_by],["Reviewed at",(ap.reviewed_at||"").replace("T"," ").slice(0,19)],
+        ["Credit limit",ap.credit_limit!=null?money(ap.credit_limit):"—"],["Payment terms",TERMS[ap.payment_terms]||ap.payment_terms],
+        ["Price list",ap.price_list],["Customer group",ap.customer_group],
+        ["Account manager",ap.account_manager],["Account number",ap.account_number],["Notes",ap.notes],
+        ["ERP",ap.erp_customer_code?(ap.erp_backend+": "+ap.erp_customer_code):"not created yet"]])}</div>`;
+    let erp = "";
+    if(ap.status==="approved"){
+      erp = `<h3 style="margin-top:16px">Create in SAP</h3>
+        <p class="note">Preview the exact Business Partner payload, then create the customer master in SAP Business One.</p>
+        <label class="field"><span class="l">Your name</span><input id="erpWho" value="${esc(reviewer())}" placeholder="Your name"></label>
+        <div class="btns"><button class="btn" id="erpDry">Preview SAP payload</button><button class="btn approve" id="erpCreate">Create in SAP</button></div>
+        <pre id="erpOut" style="display:none;white-space:pre-wrap;word-break:break-word;background:#0f241f;color:#dfeae6;border-radius:10px;padding:12px;margin-top:12px;font:12px/1.45 ui-monospace,Consolas,monospace;max-height:340px;overflow:auto"></pre>`;
+    } else if(ap.status==="created"){
+      erp = `<div class="rec" style="margin-top:12px;font-size:14px">✓ Created in ${esc(ap.erp_backend||"ERP")} as <b>${esc(ap.erp_customer_code||"")}</b></div>`;
+    }
+    return `<div class="aside"><h3>Decision</h3>${decided}${erp}</div>`;
+  }
+  return `<div class="aside"><h3>For internal use only</h3>
+    <p class="note">The applicant does not set a credit limit — you assign it here, along with the account details. Group / price list / terms are pre-filled from the rules engine.</p>
+    <label class="field"><span class="l">Reviewer name</span><input id="rv" value="${esc(reviewer())}" placeholder="Your name"></label>
+    <label class="field"><span class="l">Credit limit (KES)</span><input id="fcl" type="number" min="0" step="1000" value="" placeholder="0"></label>
+    <label class="field"><span class="l">Payment terms</span><select id="fpt">${opts(REF.payment_terms, rec.payment_terms, true)}</select></label>
+    <label class="field"><span class="l">Price list</span><select id="fpl"><option value="">—</option>${opts(REF.price_lists, rec.price_list, false)}</select></label>
+    <label class="field"><span class="l">Customer group</span><select id="fcg"><option value="">—</option>${opts(REF.customer_groups, rec.customer_group, false)}</select></label>
+    <label class="field"><span class="l">Account manager</span><input id="fam" value="${esc(reviewer())}" placeholder="Assigned manager"></label>
+    <label class="field"><span class="l">Account number</span><input id="fan" placeholder="Blank until ERP assigns (Phase 3)"></label>
+    <label class="field"><span class="l">Notes / reason</span><textarea id="fnote" rows="3" placeholder="Required if rejecting"></textarea></label>
+    <div class="btns"><button class="btn reject" id="rejBtn">Reject</button><button class="btn approve" id="appBtn">Approve</button></div>
+  </div>`;
+}
+
+function wireDecision(id, rec){
+  const send = async (action)=>{
+    const rv=$("#rv").value.trim();
+    if(!rv){ toast("Enter your reviewer name",true); return; }
+    localStorage.setItem(reviewerKey, rv); $("#whoami").textContent="Reviewer: "+rv;
+    const body={ action, reviewer:rv, notes:$("#fnote").value.trim(),
+      credit_limit:$("#fcl").value, payment_terms:$("#fpt").value,
+      price_list:$("#fpl").value, customer_group:$("#fcg").value,
+      account_manager:$("#fam").value.trim(), account_number:$("#fan").value.trim() };
+    if(action==="reject" && !body.notes){ toast("A reason is required to reject",true); return; }
+    if(action==="approve" && !body.credit_limit){ toast("Set a credit limit (0 for cash) to approve",true); return; }
+    if(action==="approve" && !confirm("Approve this application and set these account details?")) return;
+    $("#appBtn").disabled=true; $("#rejBtn").disabled=true;
+    try{
+      const d = await api("/api/submissions/"+encodeURIComponent(id)+"/decision", {method:"POST", body:JSON.stringify(body)});
+      toast("Application "+d.status);
+      await loadList(); openDetail(id);
+    }catch(e){ toast(e.message,true); $("#appBtn").disabled=false; $("#rejBtn").disabled=false; }
+  };
+  $("#appBtn").onclick=()=>send("approve");
+  $("#rejBtn").onclick=()=>send("reject");
+}
+
+// ---- boot ------------------------------------------------------------------
+async function boot(){
+  try{
+    REF = await api("/api/reference-data");
+    (REF.payment_terms||[]).forEach(([k,l])=>TERMS[k]=l);
+    ["business_category","product_lines","payment_methods","order_by"].forEach(key=>{
+      MAPS[key]={}; (REF[key]||[]).forEach(([k,l])=>MAPS[key][k]=l);
+    });
+    renderTabs();
+    await loadList();
+  }catch(e){ if(e.message==="Unauthorized") return; toast(e.message,true); }
+}
+$("#search").addEventListener("input",e=>{ SEARCH=e.target.value; renderList(); });
+$("#refresh").addEventListener("click",loadList);
+
+(async function init(){
+  // probe auth; if protected + no token -> gate
+  try{ await api("/api/reference-data"); boot(); }
+  catch(e){ if(e.message==="Unauthorized"){ /* gate already shown */ } else toast(e.message,true); }
+})();
+</script>
+</body>
+</html>
