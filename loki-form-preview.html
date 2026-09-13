@@ -114,7 +114,67 @@
       main{padding:22px 13px 55px}.body,.cardhead{padding:18px}.nav{padding:15px}
     }
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+    /* Loki portal system: forest, parchment and brass. */
+    :root{--bg:#f5f3ed;--paper:#fffefa;--ink:#203b34;--muted:#5e6d65;--line:#d4dbd2;
+      --brand:#123c35;--brand2:#28604c;--accent:#e4b45b;--soft:#eaf0e8;
+      --shadow:0 8px 28px rgba(24,48,42,.045)}
+    body{background:var(--bg);font-family:"Segoe UI",system-ui,sans-serif;font-size:16px}
+    .top{background:var(--brand);box-shadow:none;border-bottom:3px solid var(--accent)}
+    .topin{max-width:1440px;padding:20px 32px;gap:24px}
+    .brand{border-left:3px solid var(--accent);padding-left:14px}
+    .eyebrow{font-size:11px;letter-spacing:.18em;color:#d3e0d5}
+    .brand h1{font-size:17px;font-weight:600;line-height:1.4}
+    button,a,input,select,textarea{touch-action:manipulation}
+    button{transition:background-color .18s,border-color .18s,box-shadow .18s}
+    button:not(:disabled):hover{box-shadow:0 0 0 2px var(--accent)}
+    button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid var(--brand2);outline-offset:3px}
+    .top button:focus-visible{outline-color:var(--accent)}
+    .btn,.ghost,.tab,.choice,.rm{min-height:44px}
+    .btn{border-radius:8px;font-weight:650}
+    input,select,textarea{min-height:46px;font-size:16px;max-width:100%}
+    input[type=checkbox]{min-height:20px;accent-color:var(--brand)}
+    .card,.panel{border:1px solid var(--line);border-radius:12px}
+    .hint,.opt,.req,.rec{font-size:13px}
+    .badge{font-size:12px}
+    .toast{line-height:1.5}
+    .skip{position:fixed;top:8px;left:8px;z-index:100;background:var(--paper);color:var(--brand);padding:12px;transform:translateY(-160%)}
+    .skip:focus{transform:none}
+    dd,.sub,.auditlog,.files a{overflow-wrap:anywhere;min-width:0}
+    @media(max-width:760px){.topin{padding:16px;gap:12px}.top{position:relative}.brand{min-width:0;flex:1}.brand h1{font-size:16px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+    main{max-width:1440px;padding:48px 32px 32px;display:grid;grid-template-columns:300px minmax(0,1fr);gap:32px 56px;align-items:start}
+    main>.card{grid-column:2}
+    .hero{padding-top:8px}
+    .hero .kicker{color:var(--brand2);text-transform:uppercase;font-size:12px;letter-spacing:.16em;font-weight:700;margin-bottom:20px}
+    .hero h2{font:400 clamp(36px,3.5vw,50px)/1.06 Georgia,serif;letter-spacing:-.035em;margin-bottom:20px}
+    .hero p{font-size:15px;line-height:1.7;color:var(--muted)}
+    .journey{list-style:none;padding:22px 0 0;margin:28px 0 0;border-top:1px solid var(--line);display:grid;gap:12px}
+    .journey li{display:flex;gap:12px;align-items:center;color:var(--muted);font-size:13px}
+    .journey .num{width:28px;height:28px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;font-size:12px;flex-shrink:0}
+    .journey li.current{color:var(--brand);font-weight:700}
+    .journey li.current .num{background:var(--brand);border-color:var(--brand);color:white}
+    .journey li.complete .num{background:var(--soft);border-color:var(--brand2);color:var(--brand)}
+    .cardhead{padding:26px 32px;background:var(--paper);align-items:center}
+    .stepno{height:44px;width:44px;border-radius:50%;background:var(--brand);color:var(--accent);font-family:Georgia,serif;font-size:22px;font-weight:400}
+    .cardhead h3{font-size:22px;letter-spacing:-.025em;font-weight:600}
+    .cardhead p{font-size:14px;line-height:1.6}
+    .body{padding:32px}.section{margin-bottom:32px}.grid{gap:22px}
+    .section h4{font-weight:650}.label{font-weight:600}
+    .modepick{min-height:144px;border-radius:10px;padding:22px;position:relative}
+    .modepick b{font-size:17px;padding-right:18px}.modepick span{font-size:14px;line-height:1.6}
+    .modepick.on::after{content:'✓';position:absolute;top:18px;right:16px;color:var(--brand)}
+    .choice{border-radius:8px;font-size:14px;font-weight:600}
+    .nav{padding:22px 32px;background:var(--soft)}
+    .footer-note{grid-column:2;font-size:12px;text-align:left;margin:0}
+    .track{max-width:340px;margin-left:auto}.track span{height:4px}
+    .save{font-size:12px}.save::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:7px}
+    @media(max-width:1100px){main{grid-template-columns:240px minmax(0,1fr);gap:28px}.topin{flex-wrap:wrap}.track{max-width:none}.save{margin-left:auto}.modegrid{grid-template-columns:1fr}}
+    @media(max-width:850px){main{display:block;padding:28px 20px}.hero{position:static}.hero h2{max-width:520px}.hero p{max-width:650px}.journey{display:none}.hero .kicker{margin-bottom:12px}.footer-note{margin-top:22px}.cardhead,.body{padding:24px}}
+    @media(max-width:480px){main{padding:24px 12px}.cardhead,.body{padding:20px}.nav{padding:16px}.save{font-size:11px}.hero h2{font-size:38px}.ghost{padding:8px}.grid{gap:18px}.sigbar{flex-wrap:wrap}}
   </style>
+<a class="skip" href="#main">Skip to content</a>
 <div class="app">
   <header class="top">
     <div class="topin">
@@ -124,13 +184,13 @@
       <button class="ghost" id="resetBtn" type="button">Start over</button>
     </div>
   </header>
-  <main>
+  <main id="main">
     <section class="hero" id="hero">
-      <h2>Open a trading account</h2>
-      <p>Complete this application to open a trading account with Loki Ventures Limited. It is the
-        digital version of our Account Opening Form — please complete all relevant sections. Any
-        section that does not apply may be marked <b>N/A</b>. Your progress is saved on this device
-        automatically, and you sign on-screen at the end.</p>
+      <p class="kicker">A new partnership starts here</p>
+      <h2>Let’s grow your<br>business together.</h2>
+      <p>Open your Loki Ventures trading account in a few clear steps. Add your business details, upload your documents, then review and sign.</p>
+      <p>Your progress is saved on this device. Mark any section that does not apply <b>N/A</b>.</p>
+      <ol class="journey" id="journey" aria-label="Application steps"></ol>
     </section>
 
     <div class="card">
@@ -150,7 +210,7 @@
     <p class="footer-note">Loki Ventures Limited · P.O. Box 48960-00100, Nairobi · accounts@loki-ventures.com</p>
   </main>
 </div>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
 "use strict";
@@ -642,13 +702,16 @@ function render(){
     inp.addEventListener("input",()=>{ set(inp.dataset.path, inp.value); persist(); });
     inp.addEventListener("change",()=>{ set(inp.dataset.path, inp.value); persist(); });
   });
-  const track=document.getElementById("track"); track.innerHTML="";
+  document.getElementById("journey").innerHTML=steps.map((s,i)=>`<li class="${i===step?'current':i<step?'complete':''}" ${i===step?'aria-current="step"':''}><span class="num">${i<step?'✓':i+1}</span><span>${esc(s.title)}</span></li>`).join("");
+  document.querySelectorAll(".choice,.modepick").forEach(b=>b.setAttribute("aria-pressed",String(b.classList.contains("on"))));
+  const track=document.getElementById("track");
+  track.setAttribute("aria-label",`Step ${step+1} of ${steps.length}: ${s.title}`); track.innerHTML="";
   steps.forEach((_,i)=>{ const sp=document.createElement("span"); if(i<=step) sp.className="on"; track.appendChild(sp); });
   document.getElementById("backBtn").style.visibility = step===0?"hidden":"visible";
   const last = step===steps.length-1;
   document.getElementById("nextBtn").style.display = last?"none":"inline-block";
   document.getElementById("submitBtn").style.display = last?"inline-block":"none";
-  window.scrollTo({top:0,behavior:"smooth"});
+  window.scrollTo({top:0,behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"instant":"smooth"});
 }
 function next(){ if(!PREVIEW){ const err=steps[step].validate(); if(err){ toast(err,true); return; } } if(step<steps.length-1){ step++; render(); } }
 function back(){ if(step>0){ step--; render(); } }
